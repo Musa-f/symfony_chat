@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Index{% endblock %}
+
+{% block body %}
+    <h1>Bonjour {{app.user.getUsername}}</h1>
+     {% for connection in connections %}
+        <div class="chatbox-container">
+            <div class="chatbox">
+                <div class="chatbox-header">
+                    <h2>Chat avec {{ connection.getUser2.getUsername }}</h2>
+                </div>
+                <div class="chatbox-messages">
+                    {% for message in messages %}
+                        {% if (connection.getUser2.getId == message.getSender.getId) and (connection.getUser1.getId == message.getReceiver.getId) %}
+                            <p class="left">{{ message.getContent }}</p>
+                        {% endif %}
+
+                        {% if (connection.getUser1.getId == message.getSender.getId) and (connection.getUser2.getId == message.getReceiver.getId) %}
+                            <p class="right">{{ message.getContent }}</p>
+                        {% endif %}
+
+                    {% endfor %}
+                </div>
+                <div class="chatbox-input">
+                    <input type="text" placeholder="Type your message...">
+                    <button>Send</button>
+                </div>
+            </div>
+        </div>
+        <br>
+    {% endfor %}
+
+    <div class="private-msg">
+        <button>
+            <a href="">
+                <i class="bi bi-send"></i> Envoyer un nouveau message
+            </a>
+        </button>
+    </div>
+{% endblock %}
